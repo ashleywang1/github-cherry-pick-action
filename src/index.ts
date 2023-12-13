@@ -65,7 +65,7 @@ export async function run(): Promise<void> {
 
     // Cherry pick
     core.startGroup('Cherry picking')
-    const result = await gitExecution([
+    await gitExecution([
       'cherry-pick',
       '-m',
       '1',
@@ -73,9 +73,14 @@ export async function run(): Promise<void> {
       '--strategy-option=theirs',
       `${githubSha}`
     ])
-    if (result.exitCode !== 0 && !result.stderr.includes(CHERRYPICK_EMPTY)) {
-      throw new Error(`Unexpected error: ${result.stderr}`)
-    }
+    // Take whatever is suggested by git if there are conflicts
+    await gitExecution([
+      'add',
+      '.',
+    ])
+    await gitExecution([
+      'commit',
+    ])
     core.endGroup()
 
     // Push new branch
