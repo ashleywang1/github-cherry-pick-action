@@ -9342,9 +9342,10 @@ function run() {
             };
             core.info(`Cherry pick into branch ${inputs.branch}!`);
             const githubSha = process.env.GITHUB_SHA;
+            const mergedPrBranchName = process.env.GITHUB_REF;
             const prBranch = inputs.cherryPickBranch
                 ? inputs.cherryPickBranch
-                : `cherry-pick-${inputs.branch}-${githubSha}`;
+                : `${inputs.author}/${inputs.branch}-${mergedPrBranchName}`;
             // Configure the committer and author
             core.startGroup('Configuring the committer and author');
             const parsedAuthor = utils.parseDisplayNameEmail(inputs.author);

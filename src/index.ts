@@ -32,9 +32,12 @@ export async function run(): Promise<void> {
     // the value of merge_commit_sha changes depending on the status of the pull request
     // see https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
     const githubSha = (github.context.payload.pull_request as PullRequest).merge_commit_sha
+    const mergedPrBranchName = (
+      github.context.payload.pull_request as PullRequest
+    ).head.ref
     const prBranch = inputs.cherryPickBranch
       ? inputs.cherryPickBranch
-      : `cherry-pick-${inputs.branch}-${githubSha}`
+      : `${inputs.author}/${inputs.branch}-${mergedPrBranchName}`
 
     // Configure the committer and author
     core.startGroup('Configuring the committer and author')

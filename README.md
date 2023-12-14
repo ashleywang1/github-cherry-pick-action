@@ -2,6 +2,10 @@
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
 
+## Fork of this action: [cherry-pick-action](https://github.com/marketplace/actions/github-cherry-pick-action)
+
+We'd like to acknowledge [cherry-pick-action](https://github.com/marketplace/actions/github-cherry-pick-action) for giving a great foundation for us to build additional functionality. Please check out that action if you think it better suits your needs.
+
 # Cherry-picking a pull request commit into branchs
 
 This action is designed to be used for cherry-pick commits from pull requests into release branches.
@@ -9,12 +13,19 @@ This action is designed to be used for cherry-pick commits from pull requests in
 GitHub Cherry Pick Action will:
 
 - Checkout triggered action.
-- Create new branch name `cherry-pick-${GITHUB_SHA}` from `branch` input.
+- Create new branch name `cherry-pick-${branch}-${GITHUB_SHA}` from `branch` input.
 - Cherry-picking `${GITHUB_SHA}` into created `branch`
+- Committing changes
 - Push new `branch` to remote
 - Open pull request to `branch`
 
 > *NOTE:* The `GITHUB_SHA` is taken from the GitHub context, specifically from the `merge_commit_sha` attribute of the pull request object.
+
+## Differences from [cherry-pick-action](https://github.com/marketplace/actions/github-cherry-pick-action)
+
+In the other action, the action will fail if the git cherry-pick command fails.
+This action is more forgiving, and will continue to create a PR even if the cherry-pick fails.
+
 
 ## Example
 
