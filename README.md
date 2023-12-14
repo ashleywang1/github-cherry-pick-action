@@ -38,7 +38,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Cherry pick into release-v1.0
-        uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
+        uses: ashleywang1/github-cherry-pick-action@v1.0.1
         with:
           branch: release-v1.0
           labels: |
@@ -55,7 +55,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Cherry pick into release-v2.0
-        uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
+        uses: ashleywang1/github-cherry-pick-action@v1.0.1
         with:
           branch: release-v2.0
           labels: |
@@ -72,7 +72,7 @@ env:
 ```yml
 steps:
   - uses: actions/checkout@v3
-  - uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
+  - uses: ashleywang1/github-cherry-pick-action@v1.0.1
     id: new-issue
     with:
       branch: release-v2.0

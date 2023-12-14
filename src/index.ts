@@ -65,22 +65,20 @@ export async function run(): Promise<void> {
 
     // Cherry pick
     core.startGroup('Cherry picking')
-    await gitExecution([
-      'cherry-pick',
-      '-m',
-      '1',
-      '--strategy=recursive',
-      '--strategy-option=theirs',
-      `${githubSha}`
-    ])
-    // Take whatever is suggested by git if there are conflicts
-    await gitExecution([
-      'add',
-      '.',
-    ])
-    await gitExecution([
-      'commit',
-    ])
+    try {
+      await gitExecution([
+        'cherry-pick',
+        '-m',
+        '1',
+        '--strategy=recursive',
+        '--strategy-option=theirs',
+        `${githubSha}`
+      ])
+    } catch (err) {
+      // Take whatever is suggested by git if there are conflicts
+      await gitExecution(['add', '.'])
+      await gitExecution(['commit'])
+    }
     core.endGroup()
 
     // Push new branch
