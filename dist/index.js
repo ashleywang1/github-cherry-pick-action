@@ -9369,17 +9369,15 @@ function run() {
             core.endGroup();
             // Cherry pick
             core.startGroup('Cherry picking');
-            const result = yield gitExecution([
+            yield gitExecution([
                 'cherry-pick',
-                '-m',
-                '1',
-                '--strategy=recursive',
-                '--strategy-option=theirs',
-                `${githubSha}`
+                `${githubSha}`,
+                "||",
+                "true"
             ]);
-            if (result.exitCode !== 0 && !result.stderr.includes(CHERRYPICK_EMPTY)) {
-                throw new Error(`Unexpected error: ${result.stderr}`);
-            }
+            // Take whatever is suggested by git if there are conflicts
+            yield gitExecution(['add', '.'])
+            yield gitExecution(['commit'])
             core.endGroup();
             // Push new branch
             core.startGroup('Push new branch to remote');
