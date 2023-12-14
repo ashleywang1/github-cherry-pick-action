@@ -9342,14 +9342,13 @@ function run() {
             };
             core.info(`Cherry pick into branch ${inputs.branch}!`);
             const githubSha = process.env.GITHUB_SHA;
-            const mergedPrBranchName = process.env.GITHUB_REF;
-            const prBranch = inputs.cherryPickBranch
-                ? inputs.cherryPickBranch
-                : `${inputs.author}/${inputs.branch}-${mergedPrBranchName}`;
             // Configure the committer and author
             core.startGroup('Configuring the committer and author');
             const parsedAuthor = utils.parseDisplayNameEmail(inputs.author);
             const parsedCommitter = utils.parseDisplayNameEmail(inputs.committer);
+            const prBranch = inputs.cherryPickBranch
+                ? inputs.cherryPickBranch
+                : `${parseAuthorName.name}/${inputs.branch}-${githubSha}`;
             core.info(`Configured git committer as '${parsedCommitter.name} <${parsedCommitter.email}>'`);
             yield gitExecution(['config', '--global', 'user.name', parsedAuthor.name]);
             yield gitExecution([
