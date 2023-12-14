@@ -9371,9 +9371,13 @@ function run() {
             core.startGroup('Cherry picking');
             yield gitExecution([
                 'cherry-pick',
-                `${githubSha}`,
-                "||",
-                "true"
+                '-m',
+                '1',
+                '--strategy=recursive',
+                '--strategy-option=theirs',
+                'b1913c6a175976282d78a45dfcfd755df8a8906f',
+                // `${githubSha}`,
+                `|| true`
             ]);
             // Take whatever is suggested by git if there are conflicts
             yield gitExecution(['add', '.'])
