@@ -9383,7 +9383,7 @@ function run() {
             }
             // Take whatever is suggested by git if there are conflicts
             yield gitExecution(['add', '.'])
-            yield gitExecution(['commit'])
+            yield gitExecution(['commit', "--no-edit"])
             core.endGroup();
             // Push new branch
             core.startGroup('Push new branch to remote');
