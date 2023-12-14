@@ -74,8 +74,8 @@ export async function run(): Promise<void> {
         '--strategy-option=theirs',
         `${githubSha}`
       ])
-    } catch (err: unknown) {
-      core.info(`Encountered error while cherry-picking: ${err}.`)
+    } catch {
+      core.info(`Encountered error while cherry-picking.`)
     }
     // Take whatever is suggested by git if there are conflicts
     await gitExecution(['add', '.'])
@@ -100,6 +100,7 @@ export async function run(): Promise<void> {
     core.endGroup()
   } catch (err: unknown) {
     if (err instanceof Error) {
+      core.info(`Encountered error: ${err}.`)
       core.setFailed(err)
     }
   }
