@@ -9348,7 +9348,7 @@ function run() {
             const parsedCommitter = utils.parseDisplayNameEmail(inputs.committer);
             const prBranch = inputs.cherryPickBranch
                 ? inputs.cherryPickBranch
-                : `${parseAuthorName.name}/${inputs.branch}-${githubSha}`;
+                : `${parsedAuthor.name}/${inputs.branch}-${githubSha}`;
             core.info(`Configured git committer as '${parsedCommitter.name} <${parsedCommitter.email}>'`);
             yield gitExecution(['config', '--global', 'user.name', parsedAuthor.name]);
             yield gitExecution([
