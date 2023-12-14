@@ -72,7 +72,9 @@ export async function run(): Promise<void> {
         '1',
         '--strategy=recursive',
         '--strategy-option=theirs',
-        `${githubSha}`
+        `${githubSha}`,
+        `||`,
+        `true`
       ])
     } catch {
       core.info(`Encountered error while cherry-picking.`)
@@ -123,11 +125,7 @@ async function gitExecution(params: string[]): Promise<GitOutput> {
   }
 
   const gitPath = await io.which('git', true)
-  try {
-    result.exitCode = await exec.exec(gitPath, params, options)
-  } catch {
-    // do nothing
-  }
+  result.exitCode = await exec.exec(gitPath, params, options)
   result.stdout = stdout.join('')
   result.stderr = stderr.join('')
 
