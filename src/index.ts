@@ -123,7 +123,11 @@ async function gitExecution(params: string[]): Promise<GitOutput> {
   }
 
   const gitPath = await io.which('git', true)
-  result.exitCode = await exec.exec(gitPath, params, options)
+  try {
+    result.exitCode = await exec.exec(gitPath, params, options)
+  } catch {
+    // do nothing
+  }
   result.stdout = stdout.join('')
   result.stderr = stderr.join('')
 
