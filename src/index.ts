@@ -52,7 +52,7 @@ export async function run(): Promise<void> {
     ])
     core.endGroup()
 
-    // Update  branchs
+    // Update branches
     core.startGroup('Fetch all branchs')
     await gitExecution(['remote', 'update'])
     await gitExecution(['fetch', '--all'])
@@ -74,11 +74,12 @@ export async function run(): Promise<void> {
         '--strategy-option=theirs',
         `${githubSha}`
       ])
-    } catch (err) {
-      // Take whatever is suggested by git if there are conflicts
-      await gitExecution(['add', '.'])
-      await gitExecution(['commit'])
+    } catch (err: unknown) {
+      core.info(`Encountered error while cherry-picking: ${err}.`)
     }
+    // Take whatever is suggested by git if there are conflicts
+    await gitExecution(['add', '.'])
+    await gitExecution(['commit'])
     core.endGroup()
 
     // Push new branch
