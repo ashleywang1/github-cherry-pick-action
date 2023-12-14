@@ -66,16 +66,7 @@ export async function run(): Promise<void> {
     // Cherry pick
     core.startGroup('Cherry picking')
     try {
-      await gitExecution([
-        'cherry-pick',
-        '-m',
-        '1',
-        '--strategy=recursive',
-        '--strategy-option=theirs',
-        `${githubSha}`,
-        `||`,
-        `true`
-      ])
+      await gitExecution(['cherry-pick', `${githubSha}`, `||`, `true`])
     } catch {
       core.info(`Encountered error while cherry-picking.`)
     }
